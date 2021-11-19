@@ -1,0 +1,115 @@
+Request response
+http://localhost:9090/placeOrder
+Post
+{
+    "customer": {
+        "name": "maksasant",
+        "email": "c@gmail.com",
+        "gender": "female",
+        "products":[
+            {
+                "pid": 301,
+                "productName": "purse",
+                "qty": 1,
+                "price": 20000
+            },
+            {
+                 "pid": 699,
+                "productName": "Lanter",
+                "qty": 1,
+                "price": 10000
+            }
+        ]
+    }
+}
+
+....................................................
+
+http://localhost:9090/findAllOrders
+[
+    {
+        "id": 1,
+        "name": "Basant",
+        "email": "b@gmail.com",
+        "gender": "male",
+        "products": [
+            {
+                "pid": 201,
+                "productName": "Mobile",
+                "qty": 1,
+                "price": 10000
+            },
+            {
+                "pid": 399,
+                "productName": "Laptop",
+                "qty": 1,
+                "price": 200000
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "maksasant",
+        "email": "c@gmail.com",
+        "gender": "female",
+        "products": [
+            {
+                "pid": 301,
+                "productName": "purse",
+                "qty": 1,
+                "price": 20000
+            },
+            {
+                "pid": 699,
+                "productName": "Lanter",
+                "qty": 1,
+                "price": 10000
+            }
+        ]
+    }
+]
+
+.......................................
+
+http://localhost:9090/getInfo
+[
+    {
+        "name": "Basant",
+        "productName": "Mobile"
+    },
+    {
+        "name": "maksasant",
+        "productName": "purse"
+    },
+    {
+        "name": "Basant",
+        "productName": "Laptop"
+    },
+    {
+        "name": "maksasant",
+        "productName": "Lanter"
+    }
+]
+
+
+
+
+http://localhost:9090/getEmailPrice
+[
+    {
+        "email": "b@gmail.com",
+        "price": 10000
+    },
+    {
+        "email": "c@gmail.com",
+        "price": 20000
+    },
+    {
+        "email": "b@gmail.com",
+        "price": 200000
+    },
+    {
+        "email": "c@gmail.com",
+        "price": 10000
+    }
+]

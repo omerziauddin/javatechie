@@ -1,0 +1,106 @@
+
+mysql> select * from customer;
++----+-------------+--------+-----------+
+| id | email       | gender | name      |
++----+-------------+--------+-----------+
+|  1 | b@gmail.com | male   | Basant    |
+|  2 | c@gmail.com | female | maksasant |
++----+-------------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from product;
++-----+--------+--------------+-----+-------+
+| pid | price  | product_name | qty | cp_fk |
++-----+--------+--------------+-----+-------+
+| 201 |  10000 | Mobile       |   1 |     1 |
+| 301 |  20000 | purse        |   1 |     2 |
+| 399 | 200000 | Laptop       |   1 |     1 |
+| 699 |  10000 | Lanter       |   1 |     2 |
++-----+--------+--------------+-----+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc customer;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| id     | int          | NO   | PRI | NULL    |       |
+| email  | varchar(255) | YES  |     | NULL    |       |
+| gender | varchar(255) | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> desc product;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| pid          | int          | NO   | PRI | NULL    |       |
+| price        | int          | NO   |     | NULL    |       |
+| product_name | varchar(255) | YES  |     | NULL    |       |
+| qty          | int          | NO   |     | NULL    |       |
+| cp_fk        | int          | YES  | MUL | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+generated hibernate queries from pc
+
+
+mysql>  select customer0_.id as id1_0_, customer0_.email as email2_0_, customer0_.gender as gender3_0_, customer0_.name as name4_0_ from customer customer0_
+    -> ;
++--------+-------------+------------+-----------+
+| id1_0_ | email2_0_   | gender3_0_ | name4_0_  |
++--------+-------------+------------+-----------+
+|      1 | b@gmail.com | male       | Basant    |
+|      2 | c@gmail.com | female     | maksasant |
++--------+-------------+------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select products0_.cp_fk as cp_fk5_1_0_, products0_.pid as pid1_1_0_, products0_.pid as pid1_1_1_, products0_.price as price2_1_1_, products0_.product_name as product_3_1_1_, products0_.qty as qty4_1_1_ from product products0_ where products0_.cp_fk=1;
++-------------+-----------+-----------+-------------+----------------+-----------+
+| cp_fk5_1_0_ | pid1_1_0_ | pid1_1_1_ | price2_1_1_ | product_3_1_1_ | qty4_1_1_ |
++-------------+-----------+-----------+-------------+----------------+-----------+
+|           1 |       201 |       201 |       10000 | Mobile         |         1 |
+|           1 |       399 |       399 |      200000 | Laptop         |         1 |
++-------------+-----------+-----------+-------------+----------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select products0_.cp_fk as cp_fk5_1_0_, products0_.pid as pid1_1_0_, products0_.pid as pid1_1_1_, products0_.price as price2_1_1_, products0_.product_name as product_3_1_1_, products0_.qty as qty4_1_1_ from product products0_ where products0_.cp_fk=2;
++-------------+-----------+-----------+-------------+----------------+-----------+
+| cp_fk5_1_0_ | pid1_1_0_ | pid1_1_1_ | price2_1_1_ | product_3_1_1_ | qty4_1_1_ |
++-------------+-----------+-----------+-------------+----------------+-----------+
+|           2 |       301 |       301 |       20000 | purse          |         1 |
+|           2 |       699 |       699 |       10000 | Lanter         |         1 |
++-------------+-----------+-----------+-------------+----------------+-----------+
+2 rows in set (0.00 sec)
+
+
+
+
+ select * from customer join product on customer.id=product.cp_fk;
++----+-------------+--------+-----------+-----+--------+--------------+-----+-------+
+| id | email       | gender | name      | pid | price  | product_name | qty | cp_fk |
++----+-------------+--------+-----------+-----+--------+--------------+-----+-------+
+|  1 | b@gmail.com | male   | Basant    | 201 |  10000 | Mobile       |   1 |     1 |
+|  2 | c@gmail.com | female | maksasant | 301 |  20000 | purse        |   1 |     2 |
+|  1 | b@gmail.com | male   | Basant    | 399 | 200000 | Laptop       |   1 |     1 |
+|  2 | c@gmail.com | female | maksasant | 699 |  10000 | Lanter       |   1 |     2 |
++----+-------------+--------+-----------+-----+--------+--------------+-----+-------+
+
+
+fetch customer name and product name through join
+ select customer.name,product.product_name from customer inner join product on customer.id=product.cp_fk;
++-----------+--------------+
+| name      | product_name |
++-----------+--------------+
+| Basant    | Mobile       |
+| maksasant | purse        |
+| Basant    | Laptop       |
+| maksasant | Lanter       |
++-----------+--------------+
+
+
+to achieve it in jpa we hv to write method in our repository class with specified Query
+
+  @Query("SELECT c.name, p.productName FROM Customer c JOIN c.products p")
+    public List<OrderResponse> getJoinInformation();
